@@ -2,3 +2,4 @@ Flask==0.12.2
 facebook-sdk==2.0.0
 flake8==3.3.0
 isort==4.2.15
+requests==2.17.3
