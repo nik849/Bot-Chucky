@@ -1,6 +1,7 @@
 import requests as r
 
 from .constants import API_URL
+from .helpers import FacebookData
 
 
 class BotChucky:
@@ -8,12 +9,14 @@ class BotChucky:
         self.token = token
         self.params = {'access_token': self.token}
         self.headers = {'Content-Type': 'application/json'}
+        self.fb = FacebookData(self.token)
 
     def send_message(self, _id, text):
         data = {
             'recipient': {'id': _id},
             'message': {'text': text}
         }
-        content = r.post(API_URL, params=self.params,
-                         headers=self.headers, json=data).content
-        return content.status_code
+        message = r.post(API_URL, params=self.params,
+                         headers=self.headers, json=data)
+        if message.status_code is not 200:
+            return message.text
