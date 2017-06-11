@@ -1,6 +1,5 @@
-from .utils import get_user_fb_name
-import json
 import requests as r
+
 from .constants import API_URL
 
 
@@ -15,4 +14,6 @@ class BotChucky:
             'recipient': {'id': _id},
             'message': {'text': text}
         }
-        print(r.post(API_URL, params=self.params, headers=self.headers, json=data).content)
+        content = r.post(API_URL, params=self.params,
+                         headers=self.headers, json=data).content
+        return content.status_code
