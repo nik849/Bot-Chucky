@@ -1,1 +1,3 @@
-API_URL = 'https://graph.facebook.com/v2.6/me/messages'
+""" Constants file """
+
+API_URL = 'https://graph.facebook.com/v2.9/me/messages'
