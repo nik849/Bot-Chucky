@@ -7,7 +7,7 @@ Python bot which able to work with messenger of facebook
 Installation
 =================================
 ```
-not uploaded yet on pypi
+pip install bot_chucky  
 ```
 
 Recommendations
