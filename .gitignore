@@ -79,3 +79,6 @@ ENV/
 
 # Ignore test file
 tests.py
+
+# DS
+.DS_Store

@@ -3,11 +3,12 @@
 Python bot which able to work with messenger of facebook
 
 [![Build Status](https://travis-ci.org/MichaelYusko/Bot-Chucky.svg?branch=master)](https://travis-ci.org/MichaelYusko/Bot-Chucky)
+[![PyPI version](https://badge.fury.io/py/bot_chucky.svg)](https://badge.fury.io/py/bot_chucky)
 
 Installation
 =================================
 ```
-not uploaded yet on pypi
+pip install bot_chucky  
 ```
 
 Recommendations

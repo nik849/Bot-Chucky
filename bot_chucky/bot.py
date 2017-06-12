@@ -52,7 +52,8 @@ class BotChucky:
 
         if weather_info['cod'] == '404':
             msg = f'Sorry I can\'t find information ' \
-                  f'about weather in {city_name}, please check your name of city'
+                  f'about weather in {city_name}, ' \
+                  f'please check your name of city'
             return self.send_message(_id, msg)
 
         description = weather_info['weather'][0]['description']
