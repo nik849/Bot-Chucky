@@ -48,13 +48,20 @@ def handle_messages():
         for entry in data['entry']:
             for event in entry.get('messaging'):
                 if event.get('message'):
+                
                     # Get a user id
                     sender_id = data['entry'][0]['messaging'][0]['sender']['id']
+                    
                     # Get a user text
                     text = data['entry'][0]['messaging'][0]['message']['text']
+                    
                     # Send message to the user
                     bot.send_message(sender_id, text) 
-                     
+                    
+                    # Send weather information
+                    # Where 'text' is name of city
+                    bot.send_weather_message(sender_id, text)
+                    
                 if event.get('delivery'):
                     pass
                 
@@ -62,27 +69,6 @@ def handle_messages():
 
 if __name__ == '__main__':
     app.run(debug=True)
-```
-### Weather information
-```python
-@app.route('/', methods=['POST'])
-def handle_messages():
-    data = request.json
-    if data['object'] == 'page':
-        for entry in data['entry']:
-            for event in entry.get('messaging'):
-                if event.get('message'):
-                    # Get a user id
-                    sender_id = data['entry'][0]['messaging'][0]['sender']['id']
-                    # User city for which we will search weather information
-                    city = data['entry'][0]['messaging'][0]['message']['text']
-                    # Send message with weather information to the user
-                    bot.send_weather_message(sender_id, city)
-                
-                if event.get('delivery'):
-                    pass
-    
-    return 'ok', 200
 ```
 
 Contribution
