@@ -1,7 +1,7 @@
 import requests as r
 
 from .constants import API_URL
-from .exc import BotChuckyTokenError
+from .exc import BotChuckyInvalidToken, BotChuckyTokenError
 from .helpers import FacebookData, WeatherData
 
 
@@ -46,6 +46,15 @@ class BotChucky:
             raise BotChuckyTokenError
 
         weather_info = self.weather.get_current_weather(city_name)
+        if weather_info['cod'] == 401:
+            error = weather_info['message']
+            raise BotChuckyInvalidToken(error)
+
+        if weather_info['cod'] == '404':
+            msg = f'Sorry I can\'t find information ' \
+                  f'about weather in Lviv, please check your name of city'
+            return self.send_message(_id, msg)
+
         description = weather_info['weather'][0]['description']
         msg = f'Current weather in {city_name} is: {description}'
         return self.send_message(_id, msg)
