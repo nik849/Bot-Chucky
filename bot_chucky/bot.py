@@ -15,10 +15,10 @@ class BotChucky:
         :param weather: Instace of WeatherData class, default
         """
         self.token = token
+        self.open_weather_token = open_weather_token
         self.params = {'access_token': self.token}
         self.headers = {'Content-Type': 'application/json'}
         self.fb = FacebookData(self.token)
-        self.open_weather_token = open_weather_token
         self.weather = WeatherData(open_weather_token)
 
     def send_message(self, _id, text):

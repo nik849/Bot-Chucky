@@ -30,6 +30,7 @@ the list will be expanded.
 ```python
 from flask import Flask, request
 from bot_chucky.bot import BotChucky
+from bot_chucky.utils import get_sender_id, get_user_text
 
 token = 'YOUR_FACEBOOK_PAGE_TOKEN'
 
@@ -57,13 +58,13 @@ def handle_messages():
                 if event.get('message'):
                 
                     # Get a user id
-                    sender_id = data['entry'][0]['messaging'][0]['sender']['id']
+                    sender_id = get_sender_id(data)
                     
                     # Get a user text
-                    text = data['entry'][0]['messaging'][0]['message']['text']
+                    text = get_user_text(data)
                     
-                    # Send message to the user
-                    bot.send_message(sender_id, text) 
+                    # Send message with weather information to the user
+                    bot.send_message(sender_id, city)
                     
                     # Send weather information
                     # Where 'text' is name of city
