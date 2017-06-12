@@ -10,6 +10,13 @@ Installation
 not uploaded yet on pypi
 ```
 
+Recommendations
+=================================
+If you want test your application on local machine
+ * Install `ngrok` - will make `HTTPS` for you 
+ * Open Weather Map - create a `TOKEN` you will  be able to send weather information to a user [Create Token](https://openweathermap.org/api)
+ 
+
 Usage
 =================================
 Chucky provide the next thigs:
@@ -18,6 +25,10 @@ Chucky provide the next thigs:
  * Send weather information
  
 the list will be expanded.
+
+If you want test your application on local machine
+ * install `ngrok` - will make for you `https`
+ * Create Open Weather 
 
 ### Flask Example
 ```python
