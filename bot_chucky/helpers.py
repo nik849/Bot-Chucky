@@ -2,6 +2,7 @@
 
 import facebook
 import requests as r
+import twitter
 
 
 class FacebookData:
@@ -48,3 +49,25 @@ class WeatherData:
 
         info = r.get(api_url).json()
         return info
+
+
+class TwitterData:
+    """
+    Class which collect Twitter data
+    """
+    def __init__(self, tokens):
+        """
+        :param tokens: Dictionary of all tokens
+                       [consumer_key, consumer_secret, access_token_key, access_token_secret]
+                       required to initialize the Twitter Api
+        """
+        self.api = twitter.Api(
+            consumer_key=tokens['consumer_key'],
+            consumer_secret=tokens['consumer_secret'],
+            access_token_key=tokens['access_token_key'],
+            access_token_secret=tokens['access_token_secret']
+        )
+
+    def send_tweet(self, status):
+        if status:
+            return self.api.PostUpdate(status)
