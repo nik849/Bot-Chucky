@@ -1,5 +1,5 @@
-from setuptools import setup
 import bot_chucky
+from setuptools import setup
 
 version = bot_chucky.__version__
 
