@@ -14,7 +14,7 @@ pip install bot_chucky
 Recommendations
 =================================
 If you want test your application on local machine
- * Install `ngrok` - will make `HTTPS` for you 
+ * [Install ngrok](https://ngrok.com/download) - will make `HTTPS` for you 
  * [Open Weather Map](https://openweathermap.org/api) - create a `TOKEN` you will  be able to send weather information to a user
  
 
