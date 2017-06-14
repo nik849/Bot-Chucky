@@ -48,3 +48,10 @@ class WeatherData:
 
         info = r.get(api_url).json()
         return info
+
+
+class StackOverFlowData:
+    params = {}
+
+    def get_answer_by_title(self, title):
+        pass
