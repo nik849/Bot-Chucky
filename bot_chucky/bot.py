@@ -84,4 +84,7 @@ class BotChucky:
 
         reply = self.twitter.send_tweet(status)
 
-        return reply
+        if reply['success']:
+            return f'I have placed your tweet with status \'{status}\'.'
+
+        return f'Twitter Error: {reply["detail"]}.'

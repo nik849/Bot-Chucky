@@ -70,4 +70,13 @@ class TwitterData:
 
     def send_tweet(self, status):
         if status:
-            return self.api.PostUpdate(status)
+            try:
+                return {
+                    'success':True,
+                    'tweet': self.api.PostUpdate(status)
+                }
+            except twitter.error.TwitterError as TWE:
+                return {
+                    'detail': TWE.message[0]['message'],
+                    'success': False
+                }
