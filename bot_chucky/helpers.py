@@ -72,7 +72,7 @@ class TwitterData:
         if status:
             try:
                 return {
-                    'success':True,
+                    'success': True,
                     'tweet': self.api.PostUpdate(status)
                 }
             except twitter.error.TwitterError as TWE:

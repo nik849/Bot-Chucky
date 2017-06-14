@@ -2,7 +2,7 @@ import requests as r
 
 from .constants import API_URL
 from .exc import BotChuckyInvalidToken, BotChuckyTokenError
-from .helpers import FacebookData, WeatherData, TwitterData
+from .helpers import FacebookData, TwitterData, WeatherData
 
 
 class BotChucky:
