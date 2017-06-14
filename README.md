@@ -65,7 +65,7 @@ def handle_messages():
                     text = get_user_text(data)
                     
                     # Send message with weather information to the user
-                    bot.send_message(sender_id, city)
+                    bot.send_message(sender_id, text)
                     
                     # Send weather information
                     # Where 'text' is name of city
