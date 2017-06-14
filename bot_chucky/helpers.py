@@ -80,3 +80,8 @@ class TwitterData:
                     'detail': TWE.message[0]['message'],
                     'success': False
                 }
+
+
+class StackExchangeData:
+    def get_stack_answer(self):
+        pass
