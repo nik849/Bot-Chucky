@@ -1,7 +1,10 @@
 """ Helper classes """
 
+from urllib import parse
+
 import facebook
 import requests as r
+import twitter
 
 
 class FacebookData:
@@ -50,8 +53,45 @@ class WeatherData:
         return info
 
 
-class StackOverFlowData:
-    params = {}
+class TwitterData:
+    """
+    Class which collect Twitter data
+    """
+    def __init__(self, tokens):
+        """
+        :param tokens: Dictionary of all tokens
+                       [consumer_key, consumer_secret, access_token_key, access_token_secret]
+                       required to initialize the Twitter Api
+        """
+        self.api = twitter.Api(
+            consumer_key=tokens['consumer_key'],
+            consumer_secret=tokens['consumer_secret'],
+            access_token_key=tokens['access_token_key'],
+            access_token_secret=tokens['access_token_secret']
+        )
 
-    def get_answer_by_title(self, title):
-        pass
+    def send_tweet(self, status):
+        if status:
+            try:
+                return {
+                    'success': True,
+                    'tweet': self.api.PostUpdate(status)
+                }
+            except twitter.error.TwitterError as TWE:
+                return {
+                    'detail': TWE.message[0]['message'],
+                    'success': False
+                }
+
+
+class StackExchangeData:
+    """
+    Class which collect StackExchange data
+    """
+    def get_stack_answer_by(self, **kwargs):
+        params = None
+        if len(kwargs) > 1:
+            pass
+        for key in kwargs.keys():
+            params = parse.quote_plus(kwargs.get(key))
+        return params
