@@ -87,6 +87,7 @@ class TwitterData:
 class StackExchangeData:
     """
     Class which collect StackExchange data
+    Warning: the class not completed yet
     """
     def get_stack_answer_by(self, **kwargs):
         params = None
