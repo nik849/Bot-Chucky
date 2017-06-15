@@ -128,7 +128,7 @@ class StackExchangeData:
 
 class ChuckyCustomGenerator:
     """
-    Class will allow add customs unique words/function
+    Class will allow to add customs unique words/functions
     Warning: not completed yet
     """
     pass
