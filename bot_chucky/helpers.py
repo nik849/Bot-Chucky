@@ -124,3 +124,11 @@ class StackExchangeData:
         questions = r.get(stack_url).json()
         links = [obj['link'] for obj in questions['items']]
         return links
+
+
+class ChuckyCustomGenerator:
+    """
+    Class will allow add customs unique words/function
+    Warning: not completed yet
+    """
+    pass
