@@ -5,6 +5,7 @@ from urllib import parse
 import facebook
 import requests as r
 import twitter
+import soundcloud
 
 
 class FacebookData:
@@ -46,8 +47,8 @@ class WeatherData:
 
         {'weather': [{'id': 800, 'main': 'Clear', 'description': 'clear sky'}]}
         """
-        api_url = f'http://api.openweathermap.org' \
-                  f'/data/2.5/weather?q={city_name}&APPID={self.token}'
+        api_url = 'http://api.openweathermap.org' \
+            '/data/2.5/weather?q={}&APPID={}'.format(city_name, self.token)
 
         info = r.get(api_url).json()
         return info
@@ -60,7 +61,8 @@ class TwitterData:
     def __init__(self, tokens):
         """
         :param tokens: Dictionary of all tokens
-                       [consumer_key, consumer_secret, access_token_key, access_token_secret]
+                       [consumer_key, consumer_secret, access_token_key,
+                       access_token_secret]
                        required to initialize the Twitter Api
         """
         self.api = twitter.Api(
@@ -95,3 +97,58 @@ class StackExchangeData:
         for key in kwargs.keys():
             params = parse.quote_plus(kwargs.get(key))
         return params
+
+
+class SoundCloudData:
+    """
+    Class to gather soundcloud data, tracks etc
+    """
+    def __init__(self, client_id):
+        """
+        client_id = Client ID, must be registered
+        """
+        self.client_id = client_id
+        self._api = soundcloud.Client(client_id=self.client_id)
+
+
+    def resolve_track(self, url):
+        """
+        Resolve a track name
+        :param url: permalink to a track (str)
+        """
+        try:
+            track = self._api.get('/resolve', str(url))
+
+            return {
+                'success': True,
+                'track': track.id
+            }
+        except Exception as e:
+            return {
+                'success': False,
+                'detail': 'Error: {}, Code: {}'.format(e.message,
+                                                       e.response.status_code)
+            }
+
+    def search(self, artist=None):
+        """
+        Search for tracks by artist, or artist by track
+        :param artist: search by artist, returns tracks and info, type -> str
+        """
+        self.artist = artist
+
+        if self.artist is not None:
+            try:
+                artists = self._api.get('/users', q=self.artist)
+                tracks = self._api.get('/tracks', q=self.artist)
+                return {
+                    'success': True,
+                    'artists': artists,
+                    'tracks': tracks
+                }
+            except Exception as e:
+                return {
+                    'success': False,
+                    'detail': 'Error: {}, Code: {}'
+                                .format(e.message, e.response.status_code)
+                }
