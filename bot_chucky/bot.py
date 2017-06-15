@@ -71,12 +71,12 @@ class BotChucky:
 
         if weather_info['cod'] == '404':
             msg = 'Sorry I cant find information ' \
-                  'about weather in {}, '.format(city_name)
+                  'about weather in {0}, '.format(city_name)
 
             return self.send_message(id_, msg)
 
         description = weather_info['weather'][0]['description']
-        msg = 'Current weather in {} is: {}'.format(city_name, description)
+        msg = 'Current weather in {0} is: {1}'.format(city_name, description)
         return self.send_message(id_, msg)
 
     def send_tweet(self, status: str):
@@ -89,13 +89,15 @@ class BotChucky:
         reply = self.twitter.send_tweet(status)
 
         if reply['success']:
-            return 'I have placed your tweet with status {}.'.format(status)
+            return 'I have placed your tweet with status {0}.'.format(status)
 
-        return 'Twitter Error: {}.'.format(reply["detail"])
+        return 'Twitter Error: {0}.'.format(reply["detail"])
 
-    def send_soundcloud_message(self, artist: str):
+    def send_soundcloud_message(self, id_: str, artist: str):
         """
+        :param id_: User facebook id, type -> str
         :param artist: artist to search for, type -> str
+        :return send_message function
         """
         if not self.soundcloud_id:
             raise BotChuckyTokenError('SoundCloud')
@@ -103,12 +105,12 @@ class BotChucky:
 
         if result['success']:
             tracks_from_artist = list(result['tracks'].title)
-            msg = 'SoundCloud found {}, \n' \
-                        'Track Listing: {}'.format(result['artists'],
-                                               tracks_from_artist)
+            msg = 'SoundCloud found {0}, \n' \
+                'Track Listing: {1}'.format(result['artists'],
+                                            tracks_from_artist)
 
             return self.send_message(id_, msg)
 
-        msg = 'SoundCloud Error: {}'.format(result['detail'])
+        msg = 'SoundCloud Error: {0}'.format(result['detail'])
 
         return self.send_message(id_, msg)

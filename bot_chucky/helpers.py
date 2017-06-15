@@ -48,7 +48,7 @@ class WeatherData:
         {'weather': [{'id': 800, 'main': 'Clear', 'description': 'clear sky'}]}
         """
         api_url = 'http://api.openweathermap.org' \
-            '/data/2.5/weather?q={}&APPID={}'.format(city_name, self.token)
+            '/data/2.5/weather?q={0}&APPID={1}'.format(city_name, self.token)
 
         info = r.get(api_url).json()
         return info
@@ -110,7 +110,6 @@ class SoundCloudData:
         self.client_id = client_id
         self._api = soundcloud.Client(client_id=self.client_id)
 
-
     def resolve_track(self, url):
         """
         Resolve a track name
@@ -126,8 +125,9 @@ class SoundCloudData:
         except Exception as e:
             return {
                 'success': False,
-                'detail': 'Error: {}, Code: {}'.format(e.message,
-                                                       e.response.status_code)
+                'detail': 'Error: {0}, Code: {1}'.format(e.message,
+                                                         e.response.
+                                                         status_code)
             }
 
     def search(self, artist=None):
@@ -149,6 +149,7 @@ class SoundCloudData:
             except Exception as e:
                 return {
                     'success': False,
-                    'detail': 'Error: {}, Code: {}'
-                                .format(e.message, e.response.status_code)
+                    'detail': 'Error: {0}, Code: {1}'.format(e.message,
+                                                             e.response.
+                                                             status_code)
                 }

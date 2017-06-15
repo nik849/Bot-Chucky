@@ -10,7 +10,7 @@ class BotChuckyTokenError(Exception):
 
     def __str__(self):
         return 'Seems like you missing add'\
-               ' {} token to the ChuckyBot class'.format(self._api_name)
+               ' {0} token to the ChuckyBot class'.format(self._api_name)
 
 
 class BotChuckyInvalidToken(Exception):
