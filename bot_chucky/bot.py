@@ -91,6 +91,12 @@ class BotChucky:
         return f'Twitter Error: {reply["detail"]}.'
 
     def send_stack_questions(self, id_, **kwargs):
+        """
+        :param id_: a User id
+        :param kwargs: find by title='Update Django'
+                               tag='Django'
+        :return: send_message function, send message to a user with questions
+        """
         msg = 'I can\'t find questions for you;( try again'
         answers = self.stack.get_stack_answer_by(**kwargs)
 
