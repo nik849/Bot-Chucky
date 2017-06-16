@@ -1,5 +1,6 @@
 """ Helper classes """
 
+from collections import Callable
 from urllib import parse
 
 import facebook
@@ -126,9 +127,84 @@ class StackExchangeData:
         return links
 
 
-class ChuckyCustomGenerator:
+class ChuckyCustomGenerator(Callable):
     """
-    Class will allow to add customs unique words/functions
-    Warning: not completed yet
+    warnings:: Class not completed yet
+    description:: Class will allow to add customs unique words/functions,
+                  If user want to create own realization of the bot,
+                  he should use the CustomGenerator class.
+    future:: It will be imported into BotChucky class.
+
+    :Example:
+          # first create custom functions
+          def hello_python():
+            return 'Hello Python!'
+
+          def bye_python():
+            return 'Python news!'
+
+          my_config = {
+            '#Python': hello_python
+          }
+
+          # Create instance of ChuckyGenerator
+          bot = ChuckyCustomGenerator()
+          bot.config = my_config
+
+          # If we get some text from messenger
+          # And we pass an argument to the bot
+
+          my_message = 'Hello I want to learn #Python'
+          bot(my_message)
+
+          The bot will return the result of a custom function: 'Hello Python!'
+
+          Update our config, and add topics:
+
+          # Add topics
+          # For example
+          # If we got text with #Python and 'bye' word
+          my_config = {
+            '#Python': {'news': news_python}
+           }
+          bot.config = my_config
+
+          my_message = 'Hey #Python, and send me your news'
+          bot(my_message)
+
+          bot will return the result of a custom function: 'Python news!'
     """
-    pass
+    config = {}
+
+    def exclude_param(self, *args):
+        if len(args) > 1:
+            raise ValueError('Argument must be one')
+        text = args[0].split()
+        return text
+
+    @property
+    def config_keys(self):
+        return self.config.keys()
+
+    def check_and_run(self, text):
+        func = None
+        for key in self.config_keys:
+            if key not in text:
+                # If not key in a text will need
+                # to return some message to a user
+                # Will be refactored this case
+                pass
+            if key in text:
+                func = self.config.get(key)
+
+            if isinstance(func, Callable):
+                return func()
+
+            else:
+                for topic in self.config.get(key):
+                    func = self.config[key][topic]
+                    return func()
+
+    def __call__(self, *args, **kwargs):
+        text = self.exclude_param(*args)
+        return self.check_and_run(text)
