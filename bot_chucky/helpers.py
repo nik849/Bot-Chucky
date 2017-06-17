@@ -140,7 +140,7 @@ class ChuckyCustomGenerator(Callable):
           def hello_python():
             return 'Hello Python!'
 
-          def bye_python():
+          def news_python():
             return 'Python news!'
 
           my_config = {
@@ -190,21 +190,22 @@ class ChuckyCustomGenerator(Callable):
         func = None
         for key in self.config_keys:
             if key not in text:
-                # If not key in a text will need
-                # to return some message to a user
-                # Will be refactored this case
-                pass
+                msg = 'Sorry could you repeat please?'
+                return msg
             if key in text:
                 func = self.config.get(key)
-
             if isinstance(func, Callable):
                 return func()
-
             else:
                 for topic in self.config.get(key):
-                    func = self.config[key][topic]
-                    return func()
+                    if topic in text:
+                        func = self.config[key][topic]
+                        return func()
 
     def __call__(self, *args, **kwargs):
         text = self.exclude_param(*args)
         return self.check_and_run(text)
+
+    def __str__(self):
+        return f'{self.__class__.__name__}' \
+               f'(Your config: {self.config})'
