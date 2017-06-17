@@ -1,5 +1,3 @@
-
-
 from flask import Flask, request
 
 from bot_chucky.bot import BotChucky
