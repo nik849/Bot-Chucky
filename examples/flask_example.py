@@ -1,4 +1,5 @@
 from flask import Flask, request
+
 from bot_chucky.bot import BotChucky
 from bot_chucky.utils import get_sender_id, get_user_text
 
@@ -43,6 +44,7 @@ def handle_messages():
                     pass
 
     return 'ok', 200
+
 
 if __name__ == '__main__':
     app.run(debug=True)
