@@ -161,7 +161,7 @@ class GmailData:
                 "success": False,
                 "detail": str(error)
             }
-    
+
     def _create_gmail_api(self):
         credentials = self._get_credentials()
         http = credentials.authorize(httplib2.Http())
