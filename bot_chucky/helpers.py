@@ -7,13 +7,14 @@ from email.mime.text import MIMEText
 from urllib import parse
 
 import facebook
+import httplib2
 import requests as r
 import twitter
-
-import httplib2
-from apiclient import discovery, errors
-from bot_chucky.errors import BotChuckyError
+from googleapiclient import discovery, errors
 from oauth2client.file import Storage
+
+from bot_chucky.errors import BotChuckyError
+from bot_chucky.utils import split_text
 
 
 class FacebookData:
@@ -163,10 +164,13 @@ class GmailData:
             }
 
     def _create_gmail_api(self):
-        credentials = self._get_credentials()
-        http = credentials.authorize(httplib2.Http())
-        service = discovery.build('gmail', 'v1', http=http)
-        return service
+        try:
+            credentials = self._get_credentials()
+            http = credentials.authorize(httplib2.Http())
+            service = discovery.build('gmail', 'v1', http=http)
+            return service
+        except AttributeError:
+            return ''
 
     def _get_credentials(self):
         """Gets valid user credentials from storage.
@@ -247,11 +251,8 @@ class ChuckyCustomGenerator(Callable):
     """
     config = {}
 
-    def exclude_param(self, *args):
-        if len(args) > 1:
-            raise ValueError('Argument must be one')
-        text = args[0].split()
-        return text
+    def get_text(self, text):
+        return split_text(text)
 
     @property
     def config_keys(self):
@@ -261,7 +262,7 @@ class ChuckyCustomGenerator(Callable):
         func = None
         for key in self.config_keys:
             if key not in text:
-                msg = 'Sorry could you repeat please?'
+                msg = 'Sorry, could you repeat please?'
                 return msg
             if key in text:
                 func = self.config.get(key)
@@ -273,8 +274,8 @@ class ChuckyCustomGenerator(Callable):
                         func = self.config[key][topic]
                         return func()
 
-    def __call__(self, *args, **kwargs):
-        text = self.exclude_param(*args)
+    def __call__(self, text, **kwargs):
+        text = self.get_text(text)
         return self.check_and_run(text)
 
     def __str__(self):
