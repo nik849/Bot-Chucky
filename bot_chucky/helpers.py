@@ -1,11 +1,17 @@
 """ Helper classes """
 
+import base64
+import os
 from collections import Callable
+from email.mime.text import MIMEText
 from urllib import parse
 
 import facebook
+import httplib2
 import requests as r
 import twitter
+from apiclient import discovery, errors
+from oauth2client.file import Storage
 
 from bot_chucky.errors import BotChuckyError
 
@@ -125,6 +131,71 @@ class StackExchangeData:
         questions = r.get(stack_url).json()
         links = [obj['link'] for obj in questions['items']]
         return links
+
+
+class GmailData:
+    """
+    Class which collect Gmail Data
+    """
+    def __init__(self):
+        self.api = self._create_gmail_api()
+
+    def send_mail(self, to, subject, body):
+        """
+        :param to: Email address of the receiver
+        :param subject: Subject of the email
+        :param body: Body of the email
+        """
+        message = self._create_message(to, subject, body)
+        try:
+            message = self.api.users().messages().send(
+                userId='me',
+                body=message
+            ).execute()
+            return {
+                "success": True,
+                "message": message
+            }
+        except errors.HttpError as error:
+            return {
+                "success": False,
+                "detail": str(error)
+            }
+
+    def _create_gmail_api(self):
+        credentials = self._get_credentials()
+        http = credentials.authorize(httplib2.Http())
+        service = discovery.build('gmail', 'v1', http=http)
+        return service
+
+    def _get_credentials(self):
+        """Gets valid user credentials from storage.
+        :return: Credentials, the obtained credential.
+        """
+        home_dir = os.path.expanduser('~')
+        credential_dir = os.path.join(home_dir, '.credentials')
+        if not os.path.exists(credential_dir):
+            os.makedirs(credential_dir)
+        credential_path = os.path.join(credential_dir,
+                                       'gmail-python-quickstart.json')
+
+        store = Storage(credential_path)
+        credentials = store.get()
+        return credentials
+
+    def _create_message(self, to, subject, body):
+        """
+        Create a message for an Email.
+        :param to: Email address of the receiver
+        :param subject: Subject of the email
+        :param body: Body of the email
+        """
+        message = MIMEText(body)
+        message['to'] = to
+        message['subject'] = subject
+        return {
+            'raw': base64.urlsafe_b64encode(message.as_bytes()).decode()
+        }
 
 
 class ChuckyCustomGenerator(Callable):
