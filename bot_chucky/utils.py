@@ -17,3 +17,7 @@ def get_user_text(data: dict) -> str:
     """
     text = data['entry'][0]['messaging'][0]['message']['text']
     return text
+
+
+def split_text(text):
+    return list(text.split(' '))
