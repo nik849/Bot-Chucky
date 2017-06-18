@@ -8,7 +8,8 @@ from .helpers import FacebookData, GmailData, StackExchangeData, TwitterData, We
 class BotChucky:
     def __init__(self, token, open_weather_token=None,
                  tw_consumer_key=None, tw_consumer_secret=None,
-                 tw_access_token_key=None, tw_access_token_secret=None):
+                 tw_access_token_key=None, tw_access_token_secret=None,
+                 gmail_credentials_path='gmail-credentials.json'):
         """
         :param token: Facebook Token, required
         :param open_weather_token: not required
@@ -16,6 +17,7 @@ class BotChucky:
         :param tw_consumer_secret: Twitter Consumer Secret, not required
         :param tw_access_token_key: Twitter Access Token Key, not required
         :param tw_access_token_secret: Twitter Access Token Secret, not required
+        :param google_credentials_path: Google Mail API Credentials Path, not required
         :param headers: Set default headers for the graph API, default
         :param fb: Instace of FacebookData class, default
         :param weather: Instace of WeatherData class, default
@@ -36,7 +38,7 @@ class BotChucky:
         }
         self.twitter = TwitterData(self.twitter_tokens)
         self.stack = StackExchangeData()
-        self.gmail = GmailData()
+        self.gmail = GmailData(credentials_path=gmail_credentials_path)
 
     def send_message(self, id_: str, text):
         """
