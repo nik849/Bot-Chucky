@@ -7,13 +7,13 @@ from email.mime.text import MIMEText
 from urllib import parse
 
 import facebook
-import httplib2
 import requests as r
 import twitter
-from apiclient import discovery, errors
-from oauth2client.file import Storage
 
+import httplib2
+from apiclient import discovery, errors
 from bot_chucky.errors import BotChuckyError
+from oauth2client.file import Storage
 
 
 class FacebookData:
