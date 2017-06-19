@@ -2,7 +2,11 @@ import requests as r
 
 from .constants import API_URL
 from .errors import BotChuckyInvalidToken, BotChuckyTokenError
+<<<<<<< HEAD
 from .helpers import FacebookData, TwitterData, WeatherData, SoundCloudData
+=======
+from .helpers import FacebookData, GmailData, StackExchangeData, TwitterData, WeatherData
+>>>>>>> 5064722541938a52364eee38203f6dcbb1ad0a39
 
 
 class BotChucky:
@@ -22,7 +26,11 @@ class BotChucky:
         :param fb: Instace of FacebookData class, default
         :param weather: Instace of WeatherData class, default
         :param twitter: Instance of TwitterData class, default
+<<<<<<< HEAD
         :param soundcloud_id: SoundCloud Access Token, not required
+=======
+        :param stack: Instance of StackExchange class, not required
+>>>>>>> 5064722541938a52364eee38203f6dcbb1ad0a39
         """
         self.token = token
         self.open_weather_token = open_weather_token
@@ -37,8 +45,13 @@ class BotChucky:
             'access_token_secret': tw_access_token_secret
         }
         self.twitter = TwitterData(self.twitter_tokens)
+<<<<<<< HEAD
         self.soundcloud_id = soundcloud_id
         self.soundcloud = SoundCloudData(self.soundcloud_id)
+=======
+        self.stack = StackExchangeData()
+        self.gmail = GmailData()
+>>>>>>> 5064722541938a52364eee38203f6dcbb1ad0a39
 
     def send_message(self, id_: str, text):
         """
@@ -91,6 +104,7 @@ class BotChucky:
         if reply['success']:
             return 'I have placed your tweet with status {0}.'.format(status)
 
+<<<<<<< HEAD
         return 'Twitter Error: {0}.'.format(reply["detail"])
 
     def send_soundcloud_message(self, id_: str, artist: str):
@@ -114,3 +128,43 @@ class BotChucky:
         msg = 'SoundCloud Error: {0}'.format(result['detail'])
 
         return self.send_message(id_, msg)
+=======
+        return f'Twitter Error: {reply["detail"]}.'
+
+    def send_stack_questions(self, id_, **kwargs):
+        """
+        :param id_: a User id
+        :param kwargs: find by title='Update Django'
+                               tag='Django'
+        :return: send_message function, send message to a user with questions
+        """
+        msg = 'I can\'t find questions for you;( try again'
+        answers = self.stack.get_stack_answer_by(**kwargs)
+
+        if answers:
+            if len(answers) > 2:
+                msg = f'I found questions for you, links below\n\n ' \
+                      f'Question 1: {answers[0]}\n' \
+                      f'Question 2: {answers[1]}'
+                return self.send_message(id_, msg)
+
+            if len(answers) == 1:
+                msg = f'I found question for you, link below\n\n ' \
+                      f'Question: {answers[0]}'
+                return self.send_message(id_, msg)
+        else:
+            return self.send_message(id_, msg)
+
+    def send_mail(self, to, subject, body):
+        """
+        :param to: Email address of the receiver
+        :param subject: Subject of the email
+        :param body: Body of the email
+        """
+        reply = self.gmail.send_mail(to, subject, body)
+
+        if reply['success']:
+            return f'Sent mail successfully to {to}'
+
+        return f'Gmail Error: {reply["detail"]}'
+>>>>>>> 5064722541938a52364eee38203f6dcbb1ad0a39
