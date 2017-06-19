@@ -9,8 +9,8 @@ class BotChuckyTokenError(Exception):
         self._api_name = api_name
 
     def __str__(self):
-        return f'Seems like you missing add'\
-               f' \'{self._api_name}\' token to the ChuckyBot class'
+        return 'Seems like you missing add'\
+               ' {0} token to the ChuckyBot class'.format(self._api_name)
 
 
 class BotChuckyInvalidToken(Exception):

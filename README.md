@@ -1,6 +1,6 @@
 # Bot-Chucky
 
-Python3.6+ bot which able to work with messenger of facebook
+Python3.6+ bot which is able to work with Facebook Messenger
 
 [![Build Status](https://travis-ci.org/MichaelYusko/Bot-Chucky.svg?branch=master)](https://travis-ci.org/MichaelYusko/Bot-Chucky)
 [![PyPI version](https://badge.fury.io/py/bot_chucky.svg)](https://badge.fury.io/py/bot_chucky)
@@ -13,18 +13,20 @@ pip install bot_chucky
 
 Recommendations
 =================================
-If you want test your application on local machine
- * [Install ngrok](https://ngrok.com/download) - will make `HTTPS` for you 
- * [Open Weather Map](https://openweathermap.org/api) - create a `TOKEN` you will  be able to send weather information to a user
- 
+If you want test your application on  a local machine
+ * [Install ngrok](https://ngrok.com/download) - will enable an `HTTPS` route for you
+ * [Open Weather Map](https://openweathermap.org/api) - create a `TOKEN`, then you will be able to send weather information to a user
+
 
 Usage
 =================================
-Chucky provide the next thigs:
+Chucky provides:
 
  * Send message
  * Send weather information
- 
+ * Search SoundCloud, based on artist
+ * Search StackExchange for answers
+
 the list will be expanded.
 
 Examples

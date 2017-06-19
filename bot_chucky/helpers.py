@@ -10,6 +10,8 @@ import facebook
 import httplib2
 import requests as r
 import twitter
+import soundcloud
+
 from googleapiclient import discovery, errors
 from oauth2client.file import Storage
 
@@ -56,8 +58,8 @@ class WeatherData:
 
         {'weather': [{'id': 800, 'main': 'Clear', 'description': 'clear sky'}]}
         """
-        api_url = f'http://api.openweathermap.org' \
-                  f'/data/2.5/weather?q={city_name}&APPID={self.token}'
+        api_url = 'http://api.openweathermap.org' \
+            '/data/2.5/weather?q={0}&APPID={1}'.format(city_name, self.token)
 
         info = r.get(api_url).json()
         return info
@@ -70,7 +72,8 @@ class TwitterData:
     def __init__(self, tokens):
         """
         :param tokens: Dictionary of all tokens
-                       [consumer_key, consumer_secret, access_token_key, access_token_secret]
+                       [consumer_key, consumer_secret, access_token_key,
+                       access_token_secret]
                        required to initialize the Twitter Api
         """
         self.api = twitter.Api(
@@ -105,33 +108,85 @@ class StackExchangeData:
     }
 
     def get_stack_answer_by(self, **kwargs):
+            """
+            :param kwargs: create a query by arguments
+                           for example:
+                                tag='Python', will be search by tag
+                                title='Update Python', will be search by title
+                                and etc.
+            :return: an array with links
+            """
+            if len(kwargs) > 1:
+                raise BotChuckyError('The argument must be one')
+
+            for key in kwargs.keys():
+                query = kwargs.get(key)
+                self._default_parameters.update({key: query})
+
+                if not isinstance(query, str):
+                    raise TypeError(f'{query} must be a string')
+
+            encode_query = parse.urlencode(self._default_parameters)
+
+            stack_url = f'https://api.stackexchange.com/2.2/search/advanced?' \
+                        f'{encode_query}'
+
+            questions = r.get(stack_url).json()
+            links = [obj['link'] for obj in questions['items']]
+            return links
+
+
+class SoundCloudData:
+    """
+    Class to gather soundcloud data, tracks etc
+    """
+    def __init__(self, client_id):
         """
-        :param kwargs: create a query by arguments
-                       for example:
-                            tag='Python', will be search by tag
-                            title='Update Python', will be search by title
-                            and etc.
-
-        :return: an array with links
+        client_id = Client ID, must be registered
         """
-        if len(kwargs) > 1:
-            raise BotChuckyError('The argument must be one')
+        self.client_id = client_id
+        self._api = soundcloud.Client(client_id=self.client_id)
 
-        for key in kwargs.keys():
-            query = kwargs.get(key)
-            self._default_parameters.update({key: query})
+    def resolve_track(self, url):
+        """
+        Resolve a track name
+        :param url: permalink to a track (str)
+        """
+        try:
+            track = self._api.get('/resolve', str(url))
 
-            if not isinstance(query, str):
-                raise TypeError(f'{query} must be a string')
+            return {
+                'success': True,
+                'track': track.id
+            }
+        except Exception as e:
+            return {
+                'success': False,
+                'detail': f'Error: {e.message}, Code: {e.response.status_code}'
+            }
 
-        encode_query = parse.urlencode(self._default_parameters)
+    def search(self, artist=None):
+        """
+        Search for tracks by artist, or artist by track
+        :param artist: search by artist, returns tracks and info, type -> str
+        """
+        self.artist = artist
 
-        stack_url = f'https://api.stackexchange.com/2.2/search/advanced?' \
-                    f'{encode_query}'
-
-        questions = r.get(stack_url).json()
-        links = [obj['link'] for obj in questions['items']]
-        return links
+        if self.artist is not None:
+            try:
+                artists = self._api.get('/users', q=self.artist)
+                tracks = self._api.get('/tracks', q=self.artist)
+                return {
+                    'success': True,
+                    'artists': artists,
+                    'tracks': tracks
+                }
+            except Exception as e:
+                return {
+                    'success': False,
+                    'detail': f'Error: {e.message}, Code: '
+                              f'{e.response.status_code}'
+                }
 
 
 class GmailData:
