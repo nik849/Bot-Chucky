@@ -10,15 +10,13 @@ import facebook
 import httplib2
 import requests as r
 import twitter
-<<<<<<< HEAD
 import soundcloud
-=======
+
 from googleapiclient import discovery, errors
 from oauth2client.file import Storage
 
 from bot_chucky.errors import BotChuckyError
 from bot_chucky.utils import split_text
->>>>>>> 5064722541938a52364eee38203f6dcbb1ad0a39
 
 
 class FacebookData:
@@ -110,22 +108,32 @@ class StackExchangeData:
     }
 
     def get_stack_answer_by(self, **kwargs):
-        """
-        :param kwargs: create a query by arguments
-                       for example:
-                            tag='Python', will be search by tag
-                            title='Update Python', will be search by title
-                            and etc.
+            """
+            :param kwargs: create a query by arguments
+                           for example:
+                                tag='Python', will be search by tag
+                                title='Update Python', will be search by title
+                                and etc.
+            :return: an array with links
+            """
+            if len(kwargs) > 1:
+                raise BotChuckyError('The argument must be one')
 
-        :return: an array with links
-        """
-        if len(kwargs) > 1:
-            raise BotChuckyError('The argument must be one')
+            for key in kwargs.keys():
+                query = kwargs.get(key)
+                self._default_parameters.update({key: query})
 
-        for key in kwargs.keys():
-<<<<<<< HEAD
-            params = parse.quote_plus(kwargs.get(key))
-        return params
+                if not isinstance(query, str):
+                    raise TypeError(f'{query} must be a string')
+
+            encode_query = parse.urlencode(self._default_parameters)
+
+            stack_url = f'https://api.stackexchange.com/2.2/search/advanced?' \
+                        f'{encode_query}'
+
+            questions = r.get(stack_url).json()
+            links = [obj['link'] for obj in questions['items']]
+            return links
 
 
 class SoundCloudData:
@@ -154,9 +162,7 @@ class SoundCloudData:
         except Exception as e:
             return {
                 'success': False,
-                'detail': 'Error: {0}, Code: {1}'.format(e.message,
-                                                         e.response.
-                                                         status_code)
+                'detail': f'Error: {e.message}, Code: {e.response.status_code}'
             }
 
     def search(self, artist=None):
@@ -178,25 +184,9 @@ class SoundCloudData:
             except Exception as e:
                 return {
                     'success': False,
-                    'detail': 'Error: {0}, Code: {1}'.format(e.message,
-                                                             e.response.
-                                                             status_code)
+                    'detail': f'Error: {e.message}, Code: '
+                              f'{e.response.status_code}'
                 }
-=======
-            query = kwargs.get(key)
-            self._default_parameters.update({key: query})
-
-            if not isinstance(query, str):
-                raise TypeError(f'{query} must be a string')
-
-        encode_query = parse.urlencode(self._default_parameters)
-
-        stack_url = f'https://api.stackexchange.com/2.2/search/advanced?' \
-                    f'{encode_query}'
-
-        questions = r.get(stack_url).json()
-        links = [obj['link'] for obj in questions['items']]
-        return links
 
 
 class GmailData:
@@ -346,4 +336,3 @@ class ChuckyCustomGenerator(Callable):
     def __str__(self):
         return f'{self.__class__.__name__}' \
                f'(Your config: {self.config})'
->>>>>>> 5064722541938a52364eee38203f6dcbb1ad0a39

@@ -2,11 +2,8 @@ import requests as r
 
 from .constants import API_URL
 from .errors import BotChuckyInvalidToken, BotChuckyTokenError
-<<<<<<< HEAD
-from .helpers import FacebookData, TwitterData, WeatherData, SoundCloudData
-=======
-from .helpers import FacebookData, GmailData, StackExchangeData, TwitterData, WeatherData
->>>>>>> 5064722541938a52364eee38203f6dcbb1ad0a39
+from .helpers import FacebookData, GmailData, StackExchangeData, TwitterData,
+WeatherData, SoundCloudData
 
 
 class BotChucky:
@@ -26,11 +23,8 @@ class BotChucky:
         :param fb: Instace of FacebookData class, default
         :param weather: Instace of WeatherData class, default
         :param twitter: Instance of TwitterData class, default
-<<<<<<< HEAD
         :param soundcloud_id: SoundCloud Access Token, not required
-=======
         :param stack: Instance of StackExchange class, not required
->>>>>>> 5064722541938a52364eee38203f6dcbb1ad0a39
         """
         self.token = token
         self.open_weather_token = open_weather_token
@@ -45,13 +39,10 @@ class BotChucky:
             'access_token_secret': tw_access_token_secret
         }
         self.twitter = TwitterData(self.twitter_tokens)
-<<<<<<< HEAD
         self.soundcloud_id = soundcloud_id
         self.soundcloud = SoundCloudData(self.soundcloud_id)
-=======
         self.stack = StackExchangeData()
         self.gmail = GmailData()
->>>>>>> 5064722541938a52364eee38203f6dcbb1ad0a39
 
     def send_message(self, id_: str, text):
         """
@@ -102,10 +93,9 @@ class BotChucky:
         reply = self.twitter.send_tweet(status)
 
         if reply['success']:
-            return 'I have placed your tweet with status {0}.'.format(status)
+            return f'I have placed your tweet with status \'{status}\'.'
 
-<<<<<<< HEAD
-        return 'Twitter Error: {0}.'.format(reply["detail"])
+        return f'Twitter Error: {reply["detail"]}.'
 
     def send_soundcloud_message(self, id_: str, artist: str):
         """
@@ -119,17 +109,13 @@ class BotChucky:
 
         if result['success']:
             tracks_from_artist = list(result['tracks'].title)
-            msg = 'SoundCloud found {0}, \n' \
-                'Track Listing: {1}'.format(result['artists'],
-                                            tracks_from_artist)
-
+            msg = f'SoundCloud found {result['artists']}, \n' \
+                  f'Track Listing: {tracks_from_artist}'
             return self.send_message(id_, msg)
 
-        msg = 'SoundCloud Error: {0}'.format(result['detail'])
+        msg = f'SoundCloud Error: {result['detail']}'
 
         return self.send_message(id_, msg)
-=======
-        return f'Twitter Error: {reply["detail"]}.'
 
     def send_stack_questions(self, id_, **kwargs):
         """
@@ -167,4 +153,3 @@ class BotChucky:
             return f'Sent mail successfully to {to}'
 
         return f'Gmail Error: {reply["detail"]}'
->>>>>>> 5064722541938a52364eee38203f6dcbb1ad0a39
