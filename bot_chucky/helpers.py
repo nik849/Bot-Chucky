@@ -9,9 +9,8 @@ from urllib import parse
 import facebook
 import httplib2
 import requests as r
-import twitter
 import soundcloud
-
+import twitter
 from googleapiclient import discovery, errors
 from oauth2client.file import Storage
 
