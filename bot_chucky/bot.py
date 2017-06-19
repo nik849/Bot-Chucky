@@ -2,8 +2,9 @@ import requests as r
 
 from .constants import API_URL
 from .errors import BotChuckyInvalidToken, BotChuckyTokenError
-from .helpers import FacebookData, GmailData, StackExchangeData, TwitterData,
-WeatherData, SoundCloudData
+from .helpers import (FacebookData, GmailData,
+                      SoundCloudData, StackExchangeData,
+                      TwitterData, WeatherData)
 
 
 class BotChucky:
@@ -109,11 +110,11 @@ class BotChucky:
 
         if result['success']:
             tracks_from_artist = list(result['tracks'].title)
-            msg = f'SoundCloud found {result['artists']}, \n' \
+            msg = f'SoundCloud found {result["artists"]}, \n' \
                   f'Track Listing: {tracks_from_artist}'
             return self.send_message(id_, msg)
 
-        msg = f'SoundCloud Error: {result['detail']}'
+        msg = f'SoundCloud Error: {result["detail"]}'
 
         return self.send_message(id_, msg)
 
