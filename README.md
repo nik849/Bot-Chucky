@@ -33,6 +33,12 @@ Examples
 =================================
  * [Flask example](https://github.com/MichaelYusko/Bot-Chucky/blob/master/examples/flask_example.py)
 
+
+Documentation
+=================================
+ * http://bot-chucky.readthedocs.io/
+ Note: not completed yet
+
 Contribution
 =================================
 1. Fork or clone repository
