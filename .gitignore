@@ -82,3 +82,7 @@ tests.py
 
 # DS
 .DS_Store
+
+# docs
+docs/_build
+docs/_templates
