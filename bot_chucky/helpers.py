@@ -306,14 +306,25 @@ class ChuckyCustomGenerator(Callable):
     """
     config = {}
 
-    def get_text(self, text):
+    def get_text(self, text: str):
+        """
+        :param text: Some text, type -> str
+        :return: an array with words
+        """
         return split_text(text)
 
     @property
     def config_keys(self):
+        """
+        :return: self.config object
+        """
         return self.config.keys()
 
-    def check_and_run(self, text):
+    def check_and_run(self, text: str):
+        """
+        :param text: Some text, type -> str
+        :return: Function which match with config[key].
+        """
         func = None
         for key in self.config_keys:
             if key not in text:
