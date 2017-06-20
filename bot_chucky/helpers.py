@@ -238,7 +238,9 @@ class GmailData:
         :return: Credentials, the obtained credential.
         """
         if not os.path.exists(self.credentials_path):
-            raise BotChuckyError('Invalid Path to API Credentials File.')
+            raise BotChuckyError(
+                'You need to create \'gmail-credentials.json\' file'
+            )
 
         return Storage(self.credentials_path).get()
 
