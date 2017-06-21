@@ -81,23 +81,18 @@ class BotChucky:
             raise BotChuckyInvalidToken(error)
 
         if weather_info['cod'] == '404':
-            msg = 'Sorry I cant find information ' \
-                  'about weather in {0}, '.format(city_name)
+            msg = f'Sorry I cant find information ' \
+                  f'about weather in {city_name}, '
 
             return self.send_message(id_, msg)
 
         description = weather_info['weather'][0]['description']
-        msg = 'Current weather in {0} is: {1}'.format(city_name, description)
-        code = weather_info['weather'][0]['id']
 
-        try:
-            with open('weathericons.json', 'r') as j:
-                self.weatherIcons =  json.load(j)
-        except Exception as e:
-            raise BotChuckyError(e)
+        code = weather_info['weather'][0]['icon']
+        icon = f'http://openweathermap.org/img/w/{code}.png'
 
-        icon = self.weatherIcons["code"]["icon"]
-        self.icon = self.icon_prefix + icon
+        msg = f'Current weather in {city_name} is: {description}\n' \
+              f'{icon}'
 
         return self.send_message(id_, msg)
 
