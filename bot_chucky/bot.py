@@ -47,6 +47,8 @@ class BotChucky:
         self.soundcloud = SoundCloudData(self.soundcloud_id)
         self.stack = StackExchangeData()
         self.gmail = GmailData(credentials_path=gmail_credentials_path)
+        self.icon_prefix = 'wi wi-'
+
 
     def send_message(self, id_: str, text):
         """
@@ -69,6 +71,7 @@ class BotChucky:
         :return send_message function, send message to a user,
         with current weather
         """
+
         if self.open_weather_token is None:
             raise BotChuckyTokenError('Open Weather')
 
@@ -85,6 +88,17 @@ class BotChucky:
 
         description = weather_info['weather'][0]['description']
         msg = 'Current weather in {0} is: {1}'.format(city_name, description)
+        code = weather_info['weather'][0]['id']
+
+        try:
+            with open('weathericons.json', 'r') as j:
+                self.weatherIcons =  json.load(j)
+        except Exception as e:
+            raise BotChuckyError(e)
+
+        icon = self.weatherIcons["code"]["icon"]
+        self.icon = self.icon_prefix + icon
+
         return self.send_message(id_, msg)
 
     def send_tweet(self, status: str):
