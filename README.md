@@ -26,12 +26,19 @@ Chucky provides:
  * Send weather information
  * Search SoundCloud, based on artist
  * Search StackExchange for answers
+ * Send tweets
 
 the list will be expanded.
 
 Examples
 =================================
  * [Flask example](https://github.com/MichaelYusko/Bot-Chucky/blob/master/examples/flask_example.py)
+
+
+Documentation
+=================================
+ * http://bot-chucky.readthedocs.io/
+ Note: not completed yet
 
 Contribution
 =================================
