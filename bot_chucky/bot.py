@@ -11,7 +11,7 @@ class BotChucky:
     def __init__(self, token, open_weather_token=None,
                  tw_consumer_key=None, tw_consumer_secret=None,
                  tw_access_token_key=None, tw_access_token_secret=None,
-                 gmail_credentials_path=None,#'gmail-credentials.json'
+                 gmail_credentials_path=None,
                  soundcloud_id=None):
         """
         :param token: Facebook Token, required
@@ -19,8 +19,10 @@ class BotChucky:
         :param tw_consumer_key: Twitter Consumer Key, not required
         :param tw_consumer_secret: Twitter Consumer Secret, not required
         :param tw_access_token_key: Twitter Access Token Key, not required
-        :param tw_access_token_secret: Twitter Access Token Secret, not required
-        :param google_credentials_path: Google Mail API Credentials Path, not required
+        :param tw_access_token_secret: Twitter Access Token Secret,
+        not required
+        :param gmail_credentials_path: Google Mail API Credentials Path,
+        not required, default 'gmail-credentials.json'
         :param tw_access_token_secret: Twitter Access Token Secret,
         not required
         :param headers: Set default headers for the graph API, default
@@ -47,8 +49,6 @@ class BotChucky:
         self.soundcloud = SoundCloudData(self.soundcloud_id)
         self.stack = StackExchangeData()
         self.gmail = GmailData(credentials_path=gmail_credentials_path)
-        self.icon_prefix = 'wi wi-'
-
 
     def send_message(self, id_: str, text):
         """
