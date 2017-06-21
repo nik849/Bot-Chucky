@@ -191,8 +191,15 @@ class SoundCloudData:
 class GmailData:
     """
     Class which collect Gmail Data
+    Visit https://developers.google.com/gmail/api/quickstart/python
+    to generate your credentials for Gmail API to compose mails.
     """
-    def __init__(self):
+    def __init__(self, credentials_path='gmail-credentials.json'):
+        """
+        :param credentials_path: Gmail API Credentials Path. default ->
+                                 './gmail-credentials.json', type -> str
+        """
+        self.credentials_path = credentials_path
         self.api = self._create_gmail_api()
 
     def send_mail(self, to, subject, body):
@@ -230,16 +237,12 @@ class GmailData:
         """Gets valid user credentials from storage.
         :return: Credentials, the obtained credential.
         """
-        home_dir = os.path.expanduser('~')
-        credential_dir = os.path.join(home_dir, '.credentials')
-        if not os.path.exists(credential_dir):
-            os.makedirs(credential_dir)
-        credential_path = os.path.join(credential_dir,
-                                       'gmail-python-quickstart.json')
+        if not os.path.exists(self.credentials_path):
+            raise BotChuckyError(
+                'You need to create \'gmail-credentials.json\' file'
+            )
 
-        store = Storage(credential_path)
-        credentials = store.get()
-        return credentials
+        return Storage(self.credentials_path).get()
 
     def _create_message(self, to, subject, body):
         """
@@ -305,14 +308,25 @@ class ChuckyCustomGenerator(Callable):
     """
     config = {}
 
-    def get_text(self, text):
+    def get_text(self, text: str):
+        """
+        :param text: Some text, type -> str
+        :return: an array with words
+        """
         return split_text(text)
 
     @property
     def config_keys(self):
+        """
+        :return: self.config object
+        """
         return self.config.keys()
 
-    def check_and_run(self, text):
+    def check_and_run(self, text: str):
+        """
+        :param text: Some text, type -> str
+        :return: Function which match with config[key].
+        """
         func = None
         for key in self.config_keys:
             if key not in text:

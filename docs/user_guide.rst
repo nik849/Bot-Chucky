@@ -11,5 +11,9 @@ Chucky currently provides:
  * Send weather information
  * Search SoundCloud, based on artist
  * Search StackExchange for answers
+ * Generate own flow
+
+Search SoundCloud, based on artist/Search StackExchange for answers/Generate own flow
+will be available in a new version.
 
 This list will be expanded.

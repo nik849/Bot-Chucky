@@ -26,6 +26,7 @@ Chucky provides:
  * Send weather information
  * Search SoundCloud, based on artist
  * Search StackExchange for answers
+ * Send tweets
 
 the list will be expanded.
 
