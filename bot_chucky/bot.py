@@ -11,7 +11,7 @@ class BotChucky:
     def __init__(self, token, open_weather_token=None,
                  tw_consumer_key=None, tw_consumer_secret=None,
                  tw_access_token_key=None, tw_access_token_secret=None,
-                 gmail_credentials_path='gmail-credentials.json',
+                 gmail_credentials_path=None,
                  soundcloud_id=None):
         """
         :param token: Facebook Token, required
@@ -19,8 +19,10 @@ class BotChucky:
         :param tw_consumer_key: Twitter Consumer Key, not required
         :param tw_consumer_secret: Twitter Consumer Secret, not required
         :param tw_access_token_key: Twitter Access Token Key, not required
-        :param tw_access_token_secret: Twitter Access Token Secret, not required
-        :param google_credentials_path: Google Mail API Credentials Path, not required
+        :param tw_access_token_secret: Twitter Access Token Secret,
+        not required
+        :param gmail_credentials_path: Google Mail API Credentials Path,
+        not required, default 'gmail-credentials.json'
         :param tw_access_token_secret: Twitter Access Token Secret,
         not required
         :param headers: Set default headers for the graph API, default
@@ -69,6 +71,7 @@ class BotChucky:
         :return send_message function, send message to a user,
         with current weather
         """
+
         if self.open_weather_token is None:
             raise BotChuckyTokenError('Open Weather')
 
@@ -78,13 +81,19 @@ class BotChucky:
             raise BotChuckyInvalidToken(error)
 
         if weather_info['cod'] == '404':
-            msg = 'Sorry I cant find information ' \
-                  'about weather in {0}, '.format(city_name)
+            msg = f'Sorry I cant find information ' \
+                  f'about weather in {city_name}, '
 
             return self.send_message(id_, msg)
 
         description = weather_info['weather'][0]['description']
-        msg = 'Current weather in {0} is: {1}'.format(city_name, description)
+
+        code = weather_info['weather'][0]['icon']
+        icon = f'http://openweathermap.org/img/w/{code}.png'
+
+        msg = f'Current weather in {city_name} is: {description}\n' \
+              f'{icon}'
+
         return self.send_message(id_, msg)
 
     def send_tweet(self, status: str):
