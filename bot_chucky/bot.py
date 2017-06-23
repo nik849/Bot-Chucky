@@ -11,7 +11,6 @@ class BotChucky:
     def __init__(self, token, open_weather_token=None,
                  tw_consumer_key=None, tw_consumer_secret=None,
                  tw_access_token_key=None, tw_access_token_secret=None,
-                 gmail_credentials_path=None,
                  soundcloud_id=None):
         """
         :param token: Facebook Token, required
@@ -48,7 +47,7 @@ class BotChucky:
         self.soundcloud_id = soundcloud_id
         self.soundcloud = SoundCloudData(self.soundcloud_id)
         self.stack = StackExchangeData()
-        self.gmail = GmailData(credentials_path=gmail_credentials_path)
+        self.gmail = GmailData()
 
     def send_message(self, id_: str, text):
         """
