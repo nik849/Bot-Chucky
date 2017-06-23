@@ -33,6 +33,7 @@ the list will be expanded.
 Examples
 =================================
  * [Flask example](https://github.com/MichaelYusko/Bot-Chucky/blob/master/examples/flask_example.py)
+ * [Custom Generator example](https://github.com/MichaelYusko/Bot-Chucky/blob/master/examples/custom_generator_example.py)
 
 
 Documentation
