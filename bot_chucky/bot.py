@@ -63,6 +63,27 @@ class BotChucky:
         if message.status_code is not 200:
             return message.text
 
+    def send_attachment(self, id_: str,  attachment):
+        """
+        :param  id_: User facebook id, type -> str
+        :param attachment: Attach any image
+        """
+        data = {
+            'recipient': {'id': id_},
+            'message': {
+                'attachment': {
+                    'type': 'image',
+                    'payload': {
+                        'url': attachment
+                    }
+                }
+            }
+        }
+        message = r.post(API_URL, params=self.params,
+                         headers=self.headers, json=data)
+        if message.status_code is not 200:
+            return message.text
+
     def send_weather_message(self, id_: str, city_name: str):
         """
         :param id_: User facebook id, type -> str
@@ -90,10 +111,10 @@ class BotChucky:
         code = weather_info['weather'][0]['icon']
         icon = f'http://openweathermap.org/img/w/{code}.png'
 
-        msg = f'Current weather in {city_name} is: {description}\n' \
-              f'{icon}'
+        msg = f'Current weather in {city_name} is: {description}\n'
 
-        return self.send_message(id_, msg)
+        self.send_message(id_, msg)
+        self.send_attachment(id_, icon)
 
     def send_tweet(self, status: str):
         """
