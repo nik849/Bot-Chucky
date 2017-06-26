@@ -22,17 +22,26 @@ Usage
 =================================
 Chucky provides:
 
+
+ * Send weather information:
+
+
+    ![weather information](https://user-images.githubusercontent.com/13191999/27537700-a042c802-5a7d-11e7-8c24-e05052d23f89.jpg)
+
+ * Send StackOverflow questions:
+
+
+    ![stackoverflow information](https://user-images.githubusercontent.com/13191999/27538451-ab80a790-5a80-11e7-8406-7558d614708a.jpg)
  * Send message
- * Send weather information
- * Search SoundCloud, based on artist
- * Search StackExchange for answers
  * Send tweets
+ * Search SoundCloud, based on artist
 
 the list will be expanded.
 
 Examples
 =================================
  * [Flask example](https://github.com/MichaelYusko/Bot-Chucky/blob/master/examples/flask_example.py)
+ * [Custom Generator example](https://github.com/MichaelYusko/Bot-Chucky/blob/master/examples/custom_generator_example.py)
 
 
 Documentation

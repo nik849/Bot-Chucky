@@ -237,12 +237,16 @@ class GmailData:
         """Gets valid user credentials from storage.
         :return: Credentials, the obtained credential.
         """
-        if not os.path.exists(self.credentials_path):
-            raise BotChuckyError(
-                'You need to create \'gmail-credentials.json\' file'
-            )
+        file_name = 'gmail-credentials.json'
+        msg = '// You need to put gmail-credentials here\n' \
+              '// See https://developers.google.com/gmail/api/quickstart/python'
 
-        return Storage(self.credentials_path).get()
+        if not os.path.isfile(file_name):
+            with open(file_name, 'w') as file:
+                file.write(msg)
+
+        if os.path.exists(file_name):
+            return Storage(self.credentials_path).get()
 
     def _create_message(self, to, subject, body):
         """

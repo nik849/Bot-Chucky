@@ -11,7 +11,6 @@ class BotChucky:
     def __init__(self, token, open_weather_token=None,
                  tw_consumer_key=None, tw_consumer_secret=None,
                  tw_access_token_key=None, tw_access_token_secret=None,
-                 gmail_credentials_path='gmail-credentials.json',
                  soundcloud_id=None):
         """
         :param token: Facebook Token, required
@@ -19,8 +18,10 @@ class BotChucky:
         :param tw_consumer_key: Twitter Consumer Key, not required
         :param tw_consumer_secret: Twitter Consumer Secret, not required
         :param tw_access_token_key: Twitter Access Token Key, not required
-        :param tw_access_token_secret: Twitter Access Token Secret, not required
-        :param google_credentials_path: Google Mail API Credentials Path, not required
+        :param tw_access_token_secret: Twitter Access Token Secret,
+        not required
+        :param gmail_credentials_path: Google Mail API Credentials Path,
+        not required, default 'gmail-credentials.json'
         :param tw_access_token_secret: Twitter Access Token Secret,
         not required
         :param headers: Set default headers for the graph API, default
@@ -46,7 +47,7 @@ class BotChucky:
         self.soundcloud_id = soundcloud_id
         self.soundcloud = SoundCloudData(self.soundcloud_id)
         self.stack = StackExchangeData()
-        self.gmail = GmailData(credentials_path=gmail_credentials_path)
+        self.gmail = GmailData()
 
     def send_message(self, id_: str, text):
         """
@@ -62,6 +63,27 @@ class BotChucky:
         if message.status_code is not 200:
             return message.text
 
+    def send_attachment(self, id_: str,  attachment):
+        """
+        :param  id_: User facebook id, type -> str
+        :param attachment: Attach any image
+        """
+        data = {
+            'recipient': {'id': id_},
+            'message': {
+                'attachment': {
+                    'type': 'image',
+                    'payload': {
+                        'url': attachment
+                    }
+                }
+            }
+        }
+        message = r.post(API_URL, params=self.params,
+                         headers=self.headers, json=data)
+        if message.status_code is not 200:
+            return message.text
+
     def send_weather_message(self, id_: str, city_name: str):
         """
         :param id_: User facebook id, type -> str
@@ -69,6 +91,7 @@ class BotChucky:
         :return send_message function, send message to a user,
         with current weather
         """
+
         if self.open_weather_token is None:
             raise BotChuckyTokenError('Open Weather')
 
@@ -78,14 +101,20 @@ class BotChucky:
             raise BotChuckyInvalidToken(error)
 
         if weather_info['cod'] == '404':
-            msg = 'Sorry I cant find information ' \
-                  'about weather in {0}, '.format(city_name)
+            msg = f'Sorry I cant find information ' \
+                  f'about weather in {city_name}, '
 
             return self.send_message(id_, msg)
 
         description = weather_info['weather'][0]['description']
-        msg = 'Current weather in {0} is: {1}'.format(city_name, description)
-        return self.send_message(id_, msg)
+
+        code = weather_info['weather'][0]['icon']
+        icon = f'http://openweathermap.org/img/w/{code}.png'
+
+        msg = f'Current weather in {city_name} is: {description}\n'
+
+        self.send_message(id_, msg)
+        self.send_attachment(id_, icon)
 
     def send_tweet(self, status: str):
         """
