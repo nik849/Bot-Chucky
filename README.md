@@ -24,6 +24,7 @@ Chucky provides:
 
  * Send message
  * Send weather information
+  ![weather information](https://www.dropbox.com/s/edo0o6dndec4k29/Screenshot%202017-06-26%2014.07.18.png?dl=0)
  * Search SoundCloud, based on artist
  * Search StackExchange for answers
  * Send tweets
