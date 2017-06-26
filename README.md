@@ -24,9 +24,13 @@ Chucky provides:
 
  * Send message
  * Send weather information
+
   ![weather information](https://user-images.githubusercontent.com/13191999/27537700-a042c802-5a7d-11e7-8c24-e05052d23f89.jpg)
  * Search SoundCloud, based on artist
+
  * Search StackExchange for answers
+  ![stackoverflow information](https://user-images.githubusercontent.com/13191999/27538451-ab80a790-5a80-11e7-8406-7558d614708a.jpg)
+
  * Send tweets
 
 the list will be expanded.
