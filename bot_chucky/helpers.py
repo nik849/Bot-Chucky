@@ -1,18 +1,12 @@
 """ Helper classes """
 
-import base64
-import os
 from collections import Callable
-from email.mime.text import MIMEText
 from urllib import parse
 
 import facebook
-import httplib2
 import requests as r
 import soundcloud
 import twitter
-from googleapiclient import discovery, errors
-from oauth2client.file import Storage
 
 from bot_chucky.errors import BotChuckyError
 from bot_chucky.utils import split_text
