@@ -253,8 +253,7 @@ class ChuckyCustomGenerator(Callable):
         func = None
         for key in self.config_keys:
             if key not in text:
-                msg = 'Sorry, could you repeat please?'
-                return msg
+                return 'Sorry, could you repeat please?'
             if key in text:
                 func = self.config.get(key)
             if isinstance(func, Callable):
@@ -264,6 +263,8 @@ class ChuckyCustomGenerator(Callable):
                     if topic in text:
                         func = self.config[key][topic]
                         return func()
+                    if topic not in text:
+                        return 'I\'m Chucky bot, check your config'
 
     def __call__(self, text, **kwargs):
         text = self.get_text(text)
