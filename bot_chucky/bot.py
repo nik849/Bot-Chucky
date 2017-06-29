@@ -2,16 +2,15 @@ import requests as r
 
 from .constants import API_URL
 from .errors import BotChuckyInvalidToken, BotChuckyTokenError
-from .helpers import (FacebookData, GmailData,
-                      SoundCloudData, StackExchangeData,
-                      TwitterData, WeatherData)
+from .helpers import (FacebookData, SoundCloudData,
+                      StackExchangeData, TwitterData,
+                      WeatherData)
 
 
 class BotChucky:
     def __init__(self, token, open_weather_token=None,
                  tw_consumer_key=None, tw_consumer_secret=None,
                  tw_access_token_key=None, tw_access_token_secret=None,
-                 gmail_credentials_path=None,
                  soundcloud_id=None):
         """
         :param token: Facebook Token, required
@@ -48,7 +47,6 @@ class BotChucky:
         self.soundcloud_id = soundcloud_id
         self.soundcloud = SoundCloudData(self.soundcloud_id)
         self.stack = StackExchangeData()
-        self.gmail = GmailData(credentials_path=gmail_credentials_path)
 
     def send_message(self, id_: str, text):
         """
@@ -58,6 +56,27 @@ class BotChucky:
         data = {
             'recipient': {'id': id_},
             'message': {'text': text}
+        }
+        message = r.post(API_URL, params=self.params,
+                         headers=self.headers, json=data)
+        if message.status_code is not 200:
+            return message.text
+
+    def send_attachment(self, id_: str,  attachment):
+        """
+        :param  id_: User facebook id, type -> str
+        :param attachment: Attach any image
+        """
+        data = {
+            'recipient': {'id': id_},
+            'message': {
+                'attachment': {
+                    'type': 'image',
+                    'payload': {
+                        'url': attachment
+                    }
+                }
+            }
         }
         message = r.post(API_URL, params=self.params,
                          headers=self.headers, json=data)
@@ -91,10 +110,10 @@ class BotChucky:
         code = weather_info['weather'][0]['icon']
         icon = f'http://openweathermap.org/img/w/{code}.png'
 
-        msg = f'Current weather in {city_name} is: {description}\n' \
-              f'{icon}'
+        msg = f'Current weather in {city_name} is: {description}\n'
 
-        return self.send_message(id_, msg)
+        self.send_message(id_, msg)
+        self.send_attachment(id_, icon)
 
     def send_tweet(self, status: str):
         """

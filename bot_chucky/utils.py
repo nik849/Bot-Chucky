@@ -20,4 +20,8 @@ def get_user_text(data: dict) -> str:
 
 
 def split_text(text):
+    """
+    :param text: A text
+    :return: An array with words ['hellp', 'world']
+    """
     return list(text.split(' '))

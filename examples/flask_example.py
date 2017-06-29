@@ -34,12 +34,16 @@ def handle_messages():
                     text = get_user_text(data)
 
                     # NOTICE: if you want send message to a user
-                    # use send_message function
-                    # if you want to send a weather info
-                    # use only send_weather_info function
+                    # Use only one function.
+
+                    # Send message to a user
                     bot.send_message(sender_id, text)
+
+                    # Send weather information
                     bot.send_weather_message(sender_id, text)
 
+                    # Send stackoverflow questions
+                    bot.send_stack_questions(sender_id, title=text)
                 if event.get('delivery'):
                     pass
 
