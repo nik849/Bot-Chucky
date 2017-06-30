@@ -36,6 +36,9 @@ my_config = {
 # Set your config to the chucky_generator
 chucky_generator.config = my_config
 
+# You able to check your config
+print(chucky_generator)
+
 
 @app.route('/', methods=['GET'])
 def handle_verification():
