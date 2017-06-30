@@ -2,9 +2,9 @@ import requests as r
 
 from .constants import API_URL
 from .errors import BotChuckyInvalidToken, BotChuckyTokenError
-from .helpers import (FacebookData, GmailData,
-                      SoundCloudData, StackExchangeData,
-                      TwitterData, WeatherData)
+from .helpers import (FacebookData, SoundCloudData,
+                      StackExchangeData, TwitterData,
+                      WeatherData)
 
 
 class BotChucky:
@@ -47,7 +47,6 @@ class BotChucky:
         self.soundcloud_id = soundcloud_id
         self.soundcloud = SoundCloudData(self.soundcloud_id)
         self.stack = StackExchangeData()
-        self.gmail = GmailData()
 
     def send_message(self, id_: str, text):
         """
@@ -173,16 +172,3 @@ class BotChucky:
                 return self.send_message(id_, msg)
         else:
             return self.send_message(id_, msg)
-
-    def send_mail(self, to, subject, body):
-        """
-        :param to: Email address of the receiver
-        :param subject: Subject of the email
-        :param body: Body of the email
-        """
-        reply = self.gmail.send_mail(to, subject, body)
-
-        if reply['success']:
-            return f'Sent mail successfully to {to}'
-
-        return f'Gmail Error: {reply["detail"]}'
