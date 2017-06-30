@@ -172,4 +172,3 @@ class BotChucky:
                 return self.send_message(id_, msg)
         else:
             return self.send_message(id_, msg)
-
