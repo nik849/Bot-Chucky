@@ -36,8 +36,8 @@ Chucky provides:
  * Send tweets
 
 
-    ![tweets](https://user-images.githubusercontent.com/13191999/27773315-866fe34a-5f7f-11e7-92d8-d9c56237e0f3.png)
-    ![tweets](https://user-images.githubusercontent.com/13191999/27773316-88fb5fa4-5f7f-11e7-9d16-4208d6091470.png)
+    ![tweets](https://user-images.githubusercontent.com/13191999/27773370-d1e1fb14-5f80-11e7-8f95-1c9c88bab37d.jpg)
+    ![tweets](https://user-images.githubusercontent.com/13191999/27773371-d318538e-5f80-11e7-9ba3-04bec11f50c3.jpg)
  * Search SoundCloud, based on artist
 
 the list will be expanded.
