@@ -16,6 +16,7 @@ Recommendations
 If you want test your application on  a local machine
  * [Install ngrok](https://ngrok.com/download) - will enable an `HTTPS` route for you
  * [Open Weather Map](https://openweathermap.org/api) - create a `TOKEN`, then you will be able to send weather information to a user
+ * [Create facebook messenger app](https://developers.facebook.com)
 
 
 Usage
