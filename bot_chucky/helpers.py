@@ -152,10 +152,10 @@ class SoundCloudData:
                 'success': True,
                 'track': track.id
             }
-        except Exception as e:
+        except Exception as error:
             return {
                 'success': False,
-                'detail': f'Error: {e.message}, Code: {e.response.status_code}'
+                'detail': f'Error: {error.message}, Code: {error.response.status_code}'
             }
 
     def search(self, artist=None):
@@ -174,11 +174,11 @@ class SoundCloudData:
                     'artists': artists,
                     'tracks': tracks
                 }
-            except Exception as e:
+            except Exception as error:
                 return {
                     'success': False,
-                    'detail': f'Error: {e.message}, Code: '
-                              f'{e.response.status_code}'
+                    'detail': f'Error: {error.message}, Code: '
+                              f'{error.response.status_code}'
                 }
 
 
